@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[83]:
-
-
 import textblob
 import langid
 
@@ -11,7 +5,6 @@ def check_polarity(sentence):
     blob_sentence = textblob.TextBlob(sentence, analyzer=textblob.sentiments.NaiveBayesAnalyzer())
     sentiment = blob_sentence.sentiment
     return sentiment
-
 
 def spell_correct(sentence):
     blob_sentence = textblob.TextBlob(sentence)
@@ -27,22 +20,34 @@ def language_translator(sentence):
     if lang == detected_language:
         print("Already in the specified language.")
     else:
-            translated_sentence = blob_sentence.translate(from_lang=detected_language,to=lang)
-            print("Translated Sentence:", translated_sentence)
-            
+        translated_sentence = blob_sentence.translate(from_lang=detected_language, to=lang)
+        print("Translated Sentence:", translated_sentence)
+
+# Function to display the menu and get user choice
+def show_menu():
+    print("Menu:")
+    print("1. Check Polarity")
+    print("2. Spell Correction")
+    print("3. Language Translation")
+    choice = input("Enter your choice (1, 2, or 3): ")
+    return choice
+
+# Main program
 sentence = input("Enter the Paragraph or Sentence You want To Check: ")
-result = check_polarity(sentence)
-spell_correct(sentence)
-language_translator(sentence)
-positivity_percentage = result.p_pos * 100
-negativity_percentage = result.p_neg * 100
+choice = show_menu()
 
-print(f"Positivity: {positivity_percentage:.2f}%")
-print(f"Negativity: {negativity_percentage:.2f}%")
+if choice == "1":
+    result = check_polarity(sentence)
+    positivity_percentage = result.p_pos * 100
+    negativity_percentage = result.p_neg * 100
+    print(f"Positivity: {positivity_percentage:.2f}%")
+    print(f"Negativity: {negativity_percentage:.2f}%")
 
+elif choice == "2":
+    spell_correct(sentence)
 
-# In[ ]:
+elif choice == "3":
+    language_translator(sentence)
 
-
-
-
+else:
+    print("Invalid choice. Please enter 1, 2, or 3.")
